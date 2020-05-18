@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.allscontractingdc.model.Lead;
+import com.allscontractingdc.model.Proposal;
 import com.allscontractingdc.service.LeadService;
 
 @RestController
@@ -18,6 +20,17 @@ public class LeadController {
 
 	@Autowired
 	LeadService leadService;
+
+	@GetMapping(value = "{id}/proposals")
+	public List<Proposal> findProposals(@PathVariable String id) {
+		try {
+			List<Proposal> res = this.leadService.findLeadProposals(id);
+			return res;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
 
 	@GetMapping(value = "")
 	public List<Lead> list(@RequestParam int pageRange) {

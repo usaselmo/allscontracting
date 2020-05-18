@@ -18,5 +18,6 @@ public class Proposal implements Entity<Long> {
 	private Long id;
 	private List<Item> items;
 	private BigDecimal total;
+	private String fileName;
 
 }

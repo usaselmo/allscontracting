@@ -7,9 +7,39 @@ angular.module('leads', [])
 	.controller('MainController', function($scope, $http, $timeout) {
 
 	var local_server_url = "http://localhost:8080";
+	$scope.showLeads=true
 	$scope.leads=[]
+	$scope.lead={}
 	$scope.totalLeads=0
 	pageRange=0
+	
+	$scope.exibitLeads = function(){$scope.showLeads=true}
+	
+	$scope.sendProposalByMail = function(proposal){
+    $http.post(local_server_url + "/proposals/" + proposal.id + "/sendbyemail", proposal).then(function(response){
+    	/* SUCESSO */
+    	$scope.totalLeads = response.data
+    	//console.log('found leads total: ' + response.data)
+    }, function(response){
+    	/* ERRO */
+    	console.log('error....')
+    	console.log(response)
+    });
+	}
+	
+	$scope.showLeadDetails = function (lead){
+		$scope.showLeads=false
+		$scope.lead = lead
+		findLeadProposal(lead)
+	}
+	
+	var findLeadProposal = function(lead){
+    $http.get(local_server_url + "/leads/"+lead.id+"/proposals").then(function(response){
+    	$scope.lead.proposals = response.data
+    }, function(response){
+    	console.log('error.... :' + response)
+    });
+	}
 
 	var findTotalLeads = function(){
 	    $http.get(local_server_url + "/leads/total").then(function(response){
