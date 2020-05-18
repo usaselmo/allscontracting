@@ -1,12 +1,8 @@
 package com.allscontractingdc.model;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Date;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,13 +23,9 @@ public class Lead implements Entity<String>{
 	private BigDecimal fee;
 	private String type;
 	private Client client;
+	private List<Proposal> proposals;
 	
 	public enum Vendor{
 		HOME_ADVISOR, NETWORX
-	}
-	
-	public static void main(String[] args) throws IOException {
-		String str = new ObjectMapper().writeValueAsString(Lead.builder().date(new Date()).build());
-		System.out.println(new ObjectMapper().readValue(str, Lead.class));
 	}
 }
