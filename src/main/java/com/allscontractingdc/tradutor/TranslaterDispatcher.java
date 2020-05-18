@@ -13,9 +13,9 @@ import com.allscontractingdc.tradutor.impl.HomeAdvisorLeadTranslaterImpl;
 import com.allscontractingdc.tradutor.impl.NetworxLeadTranslaterImpl;
 
 @Component
-public class FSGenericTranslaterDispatcher {
+public class TranslaterDispatcher {
 	
-	private Map<Vendor, FSGenericTranslater> strategies = new HashMap<>();
+	private Map<Vendor, Translater<?>> strategies = new HashMap<>();
 	@Autowired HomeAdvisorLeadTranslaterImpl ha;
 	@Autowired NetworxLeadTranslaterImpl nx;
 	
@@ -25,7 +25,7 @@ public class FSGenericTranslaterDispatcher {
 		this.strategies.put(Vendor.NETWORX, this.nx);
 	}
 	
-	public FSGenericTranslater dispatch(Vendor vendor) {
+	public Translater<?> dispatch(Vendor vendor) {
 		return this.strategies.get(vendor);
 	}
 

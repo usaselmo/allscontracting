@@ -1,15 +1,16 @@
 package com.allscontractingdc.tradutor;
 
-import com.allscontractingdc.model.Lead;
+import java.io.Serializable;
+
 import com.allscontractingdc.model.Lead.Vendor;
 
-public interface FSGenericTranslater {
+public interface Translater<E extends Serializable> {
 
-	Lead importedFileLineToEntity(String line);
+	E importedFileLineToEntity(String line, Class<E> clazz);
 	
-	Lead localFSFileLineToEntity(String line);
+	E localFSFileLineToEntity(String line, Class<E> clazz);
 	
-	String entityToLocalFSFileLine(Lead entity);
+	String entityToLocalFSFileLine(E entity);
 	
 	boolean isFileFromRightVendor(String originalFileName, Vendor vendor);
 
