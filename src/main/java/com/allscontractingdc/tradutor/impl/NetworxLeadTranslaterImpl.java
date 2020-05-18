@@ -10,13 +10,16 @@ import com.allscontractingdc.model.Client;
 import com.allscontractingdc.model.Lead;
 import com.allscontractingdc.model.Lead.Vendor;
 import com.allscontractingdc.service.Converter;
-import com.allscontractingdc.tradutor.FSGenericTranslater;
+import com.allscontractingdc.tradutor.Translater;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class NetworxLeadTranslaterImpl implements GenericLeadTranslater, FSGenericTranslater{
+public class NetworxLeadTranslaterImpl implements Translater<Lead>{
+		
+	public static final String LINE_ITEM_SEPARATOR = ";";
+	public static final String COMMA = ";";
 	
 	//private static final int NX_Subscription = 0;
 	private static final int NX_Date = 1;
@@ -30,36 +33,32 @@ public class NetworxLeadTranslaterImpl implements GenericLeadTranslater, FSGener
 	private static final int NX_Additional_Information = 9;
 	private static final int NX_Task = 10;
 	private static final int NX_Cost = 11;
-	//private static final int NX_Credited = 12;
-	//private static final int NX_Denied = 13;
-	//private static final int NX_Call_Transfer = 14;
-	//private static final int NX_Status = 15;
-
-	@Override
-	public Lead importedFileLineToEntity(String line) {
-		if(line.contains("Subscription;Date;Name"))
-			return Lead.builder().build();
-		String[] splitedLine = line.split(GenericLeadTranslater.LINE_ITEM_SEPARATOR);
-		IntStream.range(0, splitedLine.length)
-			.forEach(index->{
-				splitedLine[index] = splitedLine[index].replace("\"=\"\"", "").replace("\"\"\"", "");
-			});
-		return buildLead(splitedLine); 
-	}
-
-	@Override
-	public Lead localFSFileLineToEntity(String line) {
-		return localFileLineToLead(line);
-	}
-
+	
 	@Override
 	public String entityToLocalFSFileLine(Lead entity) {
-		return leadToLocalFileLine(entity);
+		return LeadHelper.entityToLocalFSFileLine(entity);
+	}
+	
+	@Override
+	public Lead localFSFileLineToEntity(String line, Class<Lead> clazz) {
+		return LeadHelper.localFSFileLineToEntity(line, clazz);
 	}
 
 	@Override
 	public boolean isFileFromRightVendor(String originalFileName, Vendor vendor) {
 		return originalFileName.toLowerCase().contains("networx") && vendor.equals(Vendor.NETWORX);
+	}
+
+	@Override
+	public Lead importedFileLineToEntity(String line, Class<Lead> clazz) {
+		if(line.contains("Subscription;Date;Name"))
+			return Lead.builder().build();
+		String[] splitedLine = line.split(LINE_ITEM_SEPARATOR);
+		IntStream.range(0, splitedLine.length)
+			.forEach(index->{
+				splitedLine[index] = splitedLine[index].replace("\"=\"\"", "").replace("\"\"\"", "");
+			});
+		return buildLead(splitedLine); 
 	}
 
 	private Lead buildLead(String[] splitedLine) {
@@ -69,7 +68,7 @@ public class NetworxLeadTranslaterImpl implements GenericLeadTranslater, FSGener
 					.vendor(Vendor.NETWORX)
 					.date(Converter.convertToDate(splitedLine[NX_Date]))
 					.description(splitedLine[NX_Additional_Information])
-					.fee(defineCost(splitedLine[NX_Cost]))
+					.fee(LeadHelper.defineCost(splitedLine[NX_Cost]))
 					.type(splitedLine[NX_Task])
 					.client(Client.builder()
 							.address(splitedLine[NX_Address] + ", " + splitedLine[NX_City] + ", " + splitedLine[NX_State] + " " + splitedLine[NX_Zip_Code])

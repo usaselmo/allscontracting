@@ -1,19 +1,24 @@
 package com.allscontractingdc.tradutor.impl;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Component;
 
 import com.allscontractingdc.model.Client;
 import com.allscontractingdc.model.Lead;
 import com.allscontractingdc.model.Lead.Vendor;
 import com.allscontractingdc.service.Converter;
-import com.allscontractingdc.tradutor.FSGenericTranslater;
+import com.allscontractingdc.tradutor.Translater;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class HomeAdvisorLeadTranslaterImpl implements GenericLeadTranslater, FSGenericTranslater {
-	
+public class HomeAdvisorLeadTranslaterImpl implements Translater<Lead> {
+
+	public static final String LINE_ITEM_SEPARATOR = ";";
+	public static final String COMMA = ";";
+
 	private static final int HA_ID = 0;
 	private static final int HA_DATE = 1;
 	private static final int HA_DESCRIPTION= 2;
@@ -30,17 +35,27 @@ public class HomeAdvisorLeadTranslaterImpl implements GenericLeadTranslater, FSG
 	private static final int HA_EMAIL = 13;
 
 	@Override
-	public Lead importedFileLineToEntity(String line) {
+	public String entityToLocalFSFileLine(Lead entity) {
+		return LeadHelper.entityToLocalFSFileLine(entity);
+	}
+	
+	@Override
+	public Lead localFSFileLineToEntity(String line, Class<Lead> clazz) {
+		return LeadHelper.localFSFileLineToEntity(line, clazz);
+	}
+	
+	@Override
+	public Lead importedFileLineToEntity(String line, Class<Lead> clazz) {
 		try {
 			if(line.contains("Lead #,") && line.contains("Lead Date"))
 				return Lead.builder().build();
-			String[] splitedLine = line.split(GenericLeadTranslater.LINE_ITEM_SEPARATOR);
+			String[] splitedLine = line.split(LINE_ITEM_SEPARATOR);
 			return Lead.builder()
 					.id(splitedLine[HA_ID])
 					.vendor(Vendor.HOME_ADVISOR)
 					.date(Converter.convertToDate(splitedLine[HA_DATE]))
 					.description(splitedLine[HA_DESCRIPTION])
-					.fee(defineCost(splitedLine[HA_FEE]))
+					.fee(LeadHelper.defineCost(splitedLine[HA_FEE]))
 					.type(splitedLine[HA_TYPE])
 					.client(Client.builder()
 							.address(splitedLine[HA_ADDRESS] + ", " + splitedLine[HA_CITY] + ", " + splitedLine[HA_STATE] + " " + splitedLine[HA_ZIP_CODE])
@@ -57,18 +72,9 @@ public class HomeAdvisorLeadTranslaterImpl implements GenericLeadTranslater, FSG
 	}
 
 	@Override
-	public Lead localFSFileLineToEntity(String line) {
-		return localFileLineToLead(line);
-	}
-
-	@Override
-	public String entityToLocalFSFileLine(Lead entity) {
-		return leadToLocalFileLine(entity);
-	}
-
-	@Override
 	public boolean isFileFromRightVendor(String originalFileName, Vendor vendor) {
-		return originalFileName.toLowerCase().contains("home") && originalFileName.toLowerCase().contains("advisor") && vendor.equals(Vendor.HOME_ADVISOR);
+		return originalFileName.toLowerCase().contains("home") && originalFileName.toLowerCase().contains("advisor")
+				&& vendor.equals(Vendor.HOME_ADVISOR);
 	}
 
 }
