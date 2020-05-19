@@ -2,12 +2,15 @@ package com.allscontracting.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -43,7 +46,8 @@ public class Lead implements Entity<String> {
 	@ManyToOne(cascade=CascadeType.ALL)
 	private Client client;
 	
-	//private List<Proposal> proposals;
+  @OneToMany(mappedBy = "lead", fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Proposal> proposals;
 	
 	public enum Vendor {
 		HOME_ADVISOR, NETWORX

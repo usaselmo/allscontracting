@@ -1,11 +1,10 @@
 package com.allscontracting.model;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@javax.persistence.Entity(name = "name")
+@javax.persistence.Entity(name = "proposal")
 public class Proposal implements Entity<Long> {
 
 	private static final long serialVersionUID = -8804397870000139075L;
@@ -25,16 +24,17 @@ public class Proposal implements Entity<Long> {
 	@GeneratedValue
 	private Long id;
 
-	//@OneToMany(mappedBy = "proposal_id")
-	//private List<Item> items;
+	// @OneToMany(mappedBy = "proposal_id")
+	// private List<Item> items;
 
-	//@OneToMany(mappedBy = "proposal_id")
-	//private List<Line> lines;
+	// @OneToMany(mappedBy = "proposal_id")
+	// private List<Line> lines;
 
 	private BigDecimal total;
 
 	private String fileName;
 
+	@ManyToOne
 	private Lead lead;
 
 }
