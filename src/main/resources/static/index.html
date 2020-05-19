@@ -82,7 +82,7 @@
                 <div class="tab-content" id="myTabContent">
                   <div class="tab-pane fade show active" id="proposal" role="tabpanel" aria-labelledby="proposal-tab">
                     <span ng-repeat="proposal in lead.proposals">
-                      <p>{{proposal.fileName}} <button type="button" class="btn btn-primary btn-small" ng-click="sendProposalByMail(proposal)">Send by Email</button></p>
+                      <p>{{proposal.fileName}} <button type="button" class="btn btn-primary btn-small" ng-click="sendProposalByMail(proposal, lead)">Send by Email</button></p>
                     </span>
                   </div>
                   <div class="tab-pane fade show" id="event" role="tabpanel" aria-labelledby="event-tab">Lista de eventos.....</div>

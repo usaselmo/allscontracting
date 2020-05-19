@@ -1,5 +1,11 @@
 package com.allscontracting.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.validator.constraints.Email;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,14 +15,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Client implements Entity<String>{
+@Entity(name="client")
+public class Client {
 
-	private static final long serialVersionUID = -5611954855280867938L;
-	private String id;
+	@Id @GeneratedValue
+	private Long id;
+	
 	private String name;
 	private String address;
 	private String cellPhone;
 	private String phone;
+	
+	@Email
 	private String email;
 	
 }

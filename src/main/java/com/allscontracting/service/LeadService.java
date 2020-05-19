@@ -67,7 +67,7 @@ public class LeadService {
 		
 		return Stream.of(folder.list())
 			.filter(file->file.toString().startsWith(lead.getClient().getName()) && file.toString().endsWith(".pdf"))
-			.map(file->Proposal.builder().fileName(file.toString()).build())
+			.map(file->Proposal.builder().id(38974893L).fileName(file.toString()).build())
 			.collect(Collectors.toList());
 
 		//return Arrays.asList(Proposal.builder().total(BigDecimal.valueOf(120.36)).build());

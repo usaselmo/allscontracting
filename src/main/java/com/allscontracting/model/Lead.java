@@ -4,6 +4,14 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Generated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,19 +21,26 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Lead implements Entity<String>{
+@javax.persistence.Entity(name="lead")
+public class Lead implements Entity<String> {
 
 	private static final long serialVersionUID = 2718925984228018742L;
+	
+	@Id
 	private String id;
+		
 	private Vendor vendor;
+	
+	@Temporal(value = TemporalType.DATE)
 	private Date date;
+	
 	private String description;
 	private BigDecimal fee;
 	private String type;
 	private Client client;
 	private List<Proposal> proposals;
-	
-	public enum Vendor{
+
+	public enum Vendor {
 		HOME_ADVISOR, NETWORX
 	}
 }

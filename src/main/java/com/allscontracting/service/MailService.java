@@ -2,10 +2,6 @@ package com.allscontracting.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,16 +14,17 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MailService {
 
 	private static final String HOST = "smtp.gmail.com";
-	private static final String GMAIL_PASSWORD = "7765@Amsr";
-	private static final String GMAIL_USER = "6975.usa@gmail.com";
+	private static final String GMAIL_PASSWORD = "Getalife1969";
+	private static final String GMAIL_USER = "allscontractingdc@gmail.com";
 
 	private static final String TO = "anselmo.sr@gmail.com";
 	private static final String SUBJECT = "Email de teste";
-	private static final String PDF_FOLDER = "C:\\Users\\Anselmo.asr\\Google Drive\\All's Contracting\\proposals";
 	private static final String TEXT = "Dear {}\r\n" + "\r\n"
 			+ "Thank you for contacting us for your business improvement needs.\r\n" + "Please see proposal #1 attached.\r\n"
 			+ "\r\n"
@@ -36,16 +33,16 @@ public class MailService {
 			+ "A reply to this email will be appreciated so we make sure the estimate reached the right customer.\r\n"
 			+ "\r\n" + "Feel free to contact us if you have any question.\r\n" + "\r\n" + "Hope to hear from you soon";
 
-	public FileSystemResource findPdfFile(String clientName) throws IOException {
+/*	public FileSystemResource findPdfFile(String clientName) throws IOException {
 		File file = Files.list(Paths.get(PDF_FOLDER))
 				.filter(f -> f.getFileName().toString().startsWith(clientName) && f.getFileName().toString().endsWith("pdf"))
 				.sorted(Comparator.reverseOrder()).findFirst().orElseThrow(() -> new NoSuchElementException()).toFile();
 		return new FileSystemResource(file);
-	}
+	}*/
 
-	public void sendProposalEmail(String clientName) throws IOException {
+	public void sendProposalByEmail(String clientName, File proposalPdfFile) throws IOException {
 		ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
-		FileSystemResource file = this.findPdfFile(clientName);
+		FileSystemResource file = new FileSystemResource(proposalPdfFile);
 		emailExecutor.execute(() -> {
 			try {
 				MimeMessage message = emailSender().createMimeMessage();
@@ -76,4 +73,7 @@ public class MailService {
 		return mailSender;
 	}
 
+	public static void main(String[] args) {
+
+	}
 }

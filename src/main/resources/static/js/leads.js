@@ -15,8 +15,8 @@ angular.module('leads', [])
 	
 	$scope.exibitLeads = function(){$scope.showLeads=true}
 	
-	$scope.sendProposalByMail = function(proposal){
-    $http.post(local_server_url + "/proposals/" + proposal.id + "/sendbyemail", proposal).then(function(response){
+	$scope.sendProposalByMail = function(proposal, lead){
+    $http.post(local_server_url + "/proposals/" + proposal.id + "/lead/" + lead.id, proposal).then(function(response){
     	/* SUCESSO */
     	$scope.totalLeads = response.data
     	//console.log('found leads total: ' + response.data)
