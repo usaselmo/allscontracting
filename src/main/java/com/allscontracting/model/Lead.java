@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -25,7 +27,10 @@ public class Lead implements Entity<String> {
 	
 	@Id
 	private String id;
+	
+	static String VALUE = "";
 		
+	@Enumerated(EnumType.STRING)
 	private Vendor vendor;
 	
 	@Temporal(value = TemporalType.DATE)
@@ -39,8 +44,9 @@ public class Lead implements Entity<String> {
 	private Client client;
 	
 	//private List<Proposal> proposals;
-
+	
 	public enum Vendor {
 		HOME_ADVISOR, NETWORX
 	}
+	
 }

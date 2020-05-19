@@ -30,6 +30,8 @@ public class LeadService {
 	@Autowired	TranslaterDispatcher tradutorFinder;
 
 	public List<Lead> listLeads(int pageRange) throws Exception {
+		if(pageRange<0)
+			pageRange=0;
 		return leadRepo.findAll(new PageRequest(pageRange, LEADS_PER_PAGE, new Sort(Sort.Direction.DESC, "date") )).getContent();
 	}
 
@@ -40,6 +42,7 @@ public class LeadService {
 		List<String> lines = Arrays.asList(new String(file.getBytes()).split(System.lineSeparator()));
 		Translater<Lead> translater = (Translater<Lead>) tradutorFinder.dispatch(vendor);
 		List<Lead> leads = lines.stream() 
+				.map(line->line.replaceAll("\\r|\\n", ""))
 				.map(line -> translater.importedFileLineToEntity(line, Lead.class))
 				.filter(lead -> !StringUtils.isEmpty(lead.getId()))
 				.collect(Collectors.toList());
@@ -50,7 +53,7 @@ public class LeadService {
 	}
 
 	public void drop() throws Exception {
-		//Files.write(leadRepo.getPersistenceFile(), "".getBytes(), StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+		leadRepo.deleteAll();
 	}
 
 	public long getLeadsTotal() throws Exception {

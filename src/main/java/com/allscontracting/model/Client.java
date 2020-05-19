@@ -25,7 +25,7 @@ public class Client {
 	private String cellPhone;
 	private String phone;
 	
-/*	@OneToMany(mappedBy="client", fetch=FetchType.LAZY) 
+	/*@OneToMany(mappedBy="client", fetch=FetchType.LAZY) 
 	private List<Lead> leads;*/
 	
 	@Email
