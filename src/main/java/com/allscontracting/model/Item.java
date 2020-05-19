@@ -1,7 +1,12 @@
 package com.allscontracting.model;
 
+import java.util.List;
+
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +27,10 @@ public class Item implements Entity<Long>{
 	
 	private String title;
 
-	//@OneToMany(mappedBy="item_id")
-	//private List<Line> lines;
+	@ManyToOne
+	private Proposal proposal;
+	
+  @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Line> lines;
+	
 }

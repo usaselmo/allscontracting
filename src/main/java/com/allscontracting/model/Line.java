@@ -26,4 +26,7 @@ public class Line implements Entity<Long>{
 	@ManyToOne
 	private Proposal proposal;
 
+	@ManyToOne
+	private Item item;
+
 }

@@ -43,4 +43,7 @@ public class Proposal implements Entity<Long> {
   @OneToMany(mappedBy = "proposal", fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Line> lines;
 	
+  @OneToMany(mappedBy = "proposal", fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Item> items;
+	
 }
