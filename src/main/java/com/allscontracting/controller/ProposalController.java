@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.allscontracting.model.Lead;
 import com.allscontracting.model.Proposal;
-import com.allscontracting.repo.fsimpl.LeadJpaRepository;
 import com.allscontracting.repo.fsimpl.LeadRepository;
+import com.allscontracting.repo.jpaimpl.LeadJpaRepository;
 import com.allscontracting.service.MailService;
 
 @RestController

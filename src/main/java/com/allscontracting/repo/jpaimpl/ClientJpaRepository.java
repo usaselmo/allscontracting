@@ -1,4 +1,4 @@
-package com.allscontracting.repo.fsimpl;
+package com.allscontracting.repo.jpaimpl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

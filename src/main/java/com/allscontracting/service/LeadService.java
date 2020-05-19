@@ -17,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.allscontracting.model.Lead;
 import com.allscontracting.model.Lead.Vendor;
 import com.allscontracting.model.Proposal;
-import com.allscontracting.repo.fsimpl.LeadJpaRepository;
 import com.allscontracting.repo.fsimpl.LeadRepository;
+import com.allscontracting.repo.jpaimpl.LeadJpaRepository;
 import com.allscontracting.tradutor.Translater;
 import com.allscontracting.tradutor.TranslaterDispatcher;
 

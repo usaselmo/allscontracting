@@ -1,6 +1,4 @@
-package com.allscontracting.repo.fsimpl;
-
-import java.util.List;
+package com.allscontracting.repo.jpaimpl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
