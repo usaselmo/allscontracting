@@ -21,7 +21,6 @@ import com.allscontracting.tradutor.impl.LeadHelper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component
 public class LeadRepository extends AbstractGenericFSRepository<Lead, String> { 
 
 	@Autowired	TranslaterDispatcher translaterDispatcher;

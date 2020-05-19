@@ -2,15 +2,12 @@ package com.allscontracting.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
-import javax.annotation.Generated;
-import javax.persistence.GeneratedValue;
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,8 +34,11 @@ public class Lead implements Entity<String> {
 	private String description;
 	private BigDecimal fee;
 	private String type;
+	
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Client client;
-	private List<Proposal> proposals;
+	
+	//private List<Proposal> proposals;
 
 	public enum Vendor {
 		HOME_ADVISOR, NETWORX

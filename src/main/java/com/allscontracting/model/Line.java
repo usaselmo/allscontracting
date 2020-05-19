@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@javax.persistence.Entity(name="line")
+//@javax.persistence.Entity(name="line")
 public class Line implements Entity<Long>{
 
 	private static final long serialVersionUID = -8805126155137619614L;

@@ -1,6 +1,5 @@
 package com.allscontracting.model;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name="client")
+@javax.persistence.Entity(name="client")
 public class Client {
 
 	@Id @GeneratedValue
@@ -25,6 +24,9 @@ public class Client {
 	private String address;
 	private String cellPhone;
 	private String phone;
+	
+/*	@OneToMany(mappedBy="client", fetch=FetchType.LAZY) 
+	private List<Lead> leads;*/
 	
 	@Email
 	private String email;

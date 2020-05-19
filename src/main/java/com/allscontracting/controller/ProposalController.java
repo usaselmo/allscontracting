@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.allscontracting.model.Lead;
 import com.allscontracting.model.Proposal;
+import com.allscontracting.repo.fsimpl.LeadJpaRepository;
 import com.allscontracting.repo.fsimpl.LeadRepository;
 import com.allscontracting.service.MailService;
 
@@ -21,16 +22,14 @@ import com.allscontracting.service.MailService;
 public class ProposalController {
 
 	@Autowired	MailService mailService;
-	@Autowired	LeadRepository leadRepository;
+	@Autowired	LeadJpaRepository leadRepository;
 
 	@PostMapping(value = "{proposalId}/lead/{leadId}")
 	public void sendByEmail(@RequestBody Proposal proposal, @PathVariable long proposalId, @PathVariable String leadId)
 			throws IOException {
-		Optional<Lead> lead = leadRepository.findById(leadId);
-		if (lead.isPresent()) {
+		Lead lead = leadRepository.findOne(leadId);
 			File proposalPdfFile = new File(LeadRepository.PROPOSALS_FOLDER + "\\" + proposal.getFileName());
-			String clientName = lead.get().getClient().getName();
+			String clientName = lead.getClient().getName();
 			this.mailService.sendProposalByEmail(clientName, proposalPdfFile);
-		}
 	}
 }

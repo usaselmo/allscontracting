@@ -2,22 +2,22 @@ package com.allscontracting.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.allscontracting.model.Lead;
-import com.allscontracting.model.Proposal;
 import com.allscontracting.model.Lead.Vendor;
+import com.allscontracting.model.Proposal;
+import com.allscontracting.repo.fsimpl.LeadJpaRepository;
 import com.allscontracting.repo.fsimpl.LeadRepository;
 import com.allscontracting.tradutor.Translater;
 import com.allscontracting.tradutor.TranslaterDispatcher;
@@ -26,14 +26,11 @@ import com.allscontracting.tradutor.TranslaterDispatcher;
 public class LeadService {
 
 	private static final int LEADS_PER_PAGE = 5;
-	@Autowired	LeadRepository leadRepo;
+	@Autowired	LeadJpaRepository leadRepo;
 	@Autowired	TranslaterDispatcher tradutorFinder;
 
 	public List<Lead> listLeads(int pageRange) throws Exception {
-		if(pageRange < 0)
-			return StreamSupport.stream(leadRepo.findAll().spliterator(), false).collect(Collectors.toList());
-		else
-			return StreamSupport.stream(leadRepo.findAll().spliterator(), false).skip(pageRange*LEADS_PER_PAGE).limit(LEADS_PER_PAGE).collect(Collectors.toList());
+		return leadRepo.findAll(new PageRequest(pageRange, LEADS_PER_PAGE, new Sort(Sort.Direction.DESC, "date") )).getContent();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -53,16 +50,17 @@ public class LeadService {
 	}
 
 	public void drop() throws Exception {
-		Files.write(leadRepo.getPersistenceFile(), "".getBytes(), StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+		//Files.write(leadRepo.getPersistenceFile(), "".getBytes(), StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
 	}
 
 	public long getLeadsTotal() throws Exception {
-		return StreamSupport.stream(leadRepo.findAll().spliterator(), false).count();
+		return this.leadRepo.count();
 	}
 
 	public List<Proposal> findLeadProposals(String id) throws IOException {
 
-		Lead lead = this.leadRepo.findById(id).orElse(Lead.builder().build());
+		//Lead lead = this.leadRepo.findOne(id).orElse(Lead.builder().build());
+		Lead lead = this.leadRepo.findOne(id);
 		File folder = LeadRepository.PROPOSALS_FOLDER.toFile();
 		
 		return Stream.of(folder.list())

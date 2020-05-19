@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.allscontracting.model.Lead;
 import com.allscontracting.model.Proposal;
+import com.allscontracting.repo.fsimpl.LeadJpaRepository;
 import com.allscontracting.service.LeadService;
 
 @RestController
@@ -20,6 +21,8 @@ public class LeadController {
 
 	@Autowired
 	LeadService leadService;
+	
+	@Autowired LeadJpaRepository leadRepo;
 
 	@GetMapping(value = "{id}/proposals")
 	public List<Proposal> findProposals(@PathVariable String id) {

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@javax.persistence.Entity(name="name")
+//@javax.persistence.Entity(name="name")
 public class Proposal implements Entity<Long> {
 
 	private static final long serialVersionUID = -8804397870000139075L;
