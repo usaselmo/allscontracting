@@ -2,6 +2,7 @@ package com.allscontracting.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//@javax.persistence.Entity(name="line")
+@javax.persistence.Entity(name="line")
 public class Line implements Entity<Long>{
 
 	private static final long serialVersionUID = -8805126155137619614L;
@@ -21,4 +22,8 @@ public class Line implements Entity<Long>{
 	private Long id;
 	
 	private String value;
+
+	@ManyToOne
+	private Proposal proposal;
+
 }
