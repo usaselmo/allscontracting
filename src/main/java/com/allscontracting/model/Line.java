@@ -13,15 +13,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@javax.persistence.Entity(name="line")
-public class Line implements Entity<Long>{
+@javax.persistence.Entity(name = "line")
+public class Line implements Entity<Long> {
 
 	private static final long serialVersionUID = -8805126155137619614L;
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private Long id;
-	
-	private String value;
+
+	private String description;
 
 	@ManyToOne
 	private Proposal proposal;

@@ -72,7 +72,7 @@ public class NetworxLeadTranslaterImpl implements Translater<Lead>{
 					.type(splitedLine[NX_Task])
 					.client(Client.builder()
 							.address(splitedLine[NX_Address] + ", " + splitedLine[NX_City] + ", " + splitedLine[NX_State] + " " + splitedLine[NX_Zip_Code])
-							.cellPhone(splitedLine[NX_Phone_Number])
+							.cellPhone(splitedLine[NX_Phone_Number].replaceAll("(|)|-", ""))
 							.email(splitedLine[NX_Email])
 							.name(splitedLine[NX_Name]+"")
 							.phone("")

@@ -26,16 +26,12 @@ public class Proposal implements Entity<Long> {
 	@Id
 	@GeneratedValue
 	private Long id;
-
-	// @OneToMany(mappedBy = "proposal_id")
-	// private List<Item> items;
-
-	// @OneToMany(mappedBy = "proposal_id")
-	// private List<Line> lines;
-
 	private BigDecimal total;
-
 	private String fileName;
+	private String scopeOfWork;
+	private boolean callMissUtility;
+	private String paymentSchedule;
+	private String workWarranty;
 
 	@ManyToOne
 	private Lead lead;

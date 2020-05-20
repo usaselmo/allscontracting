@@ -1,7 +1,5 @@
 package com.allscontracting.tradutor.impl;
 
-import java.math.BigDecimal;
-
 import org.springframework.stereotype.Component;
 
 import com.allscontracting.model.Client;
@@ -59,10 +57,10 @@ public class HomeAdvisorLeadTranslaterImpl implements Translater<Lead> {
 					.type(splitedLine[HA_TYPE])
 					.client(Client.builder()
 							.address(splitedLine[HA_ADDRESS] + ", " + splitedLine[HA_CITY] + ", " + splitedLine[HA_STATE] + " " + splitedLine[HA_ZIP_CODE])
-							.cellPhone(splitedLine[HA_CELL_PHONE])
+							.cellPhone(splitedLine[HA_CELL_PHONE].replaceAll("\\(|\\)|\\-| ", ""))
+							.phone(splitedLine[HA_PHONE].replaceAll("\\(|\\)|\\-| ", ""))
 							.email(splitedLine[HA_EMAIL])
 							.name(splitedLine[HA_FIRST_NAME] + " " + splitedLine[HA_LAST_NAME])
-							.phone(splitedLine[HA_PHONE])
 							.build())
 					.build();
 		} catch (Exception e) {
