@@ -21,6 +21,12 @@ import org.springframework.stereotype.Service;
 public class MailService {
 
 
+	/*
+	 * EMAIL AND PASSWORD
+	 */
+	private static final String GMAIL_PASSWORD = "Getalife1969";
+	private static final String GMAIL_USER = "allscontractingdc@gmail.com";
+
 
 	public void sendProposalByEmail(String clientName, File proposalPdfFile) throws IOException {
 		ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
