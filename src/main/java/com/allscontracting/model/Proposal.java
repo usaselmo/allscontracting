@@ -26,6 +26,7 @@ public class Proposal implements Entity<Long> {
 	@Id
 	@GeneratedValue
 	private Long id;
+	private Integer number;
 	private BigDecimal total;
 	private String fileName;
 	private String scopeOfWork;

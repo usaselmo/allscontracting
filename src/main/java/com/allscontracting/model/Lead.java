@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.allscontracting.event.State;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,6 +50,9 @@ public class Lead implements Entity<String> {
 	
   @OneToMany(mappedBy = "lead", fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Proposal> proposals;
+
+	@Enumerated(EnumType.STRING)
+  private State state;
 	
 	public enum Vendor {
 		HOME_ADVISOR, NETWORX
